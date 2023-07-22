@@ -1,0 +1,30 @@
+services:
+  webapp:
+    image: myapp/react:example
+    build: .
+    ports:
+            - "8888:8888"
+
+    depends_on:
+            - redis
+            - mysql
+  nginx:
+    image: nginx:latest
+    ports:
+            - "8080:80"
+    depends_on:
+            - webapp
+  redis:
+    image: redis
+    ports:
+            - "7777:7777"
+  mysql:
+    image: mysql
+    environment:
+     MYSQL_ROOT_PASSWORD: secret
+    ports:
+            - "3306:3306"
+networks:
+  my_bridge_network:
+    driver: bridge
+  
